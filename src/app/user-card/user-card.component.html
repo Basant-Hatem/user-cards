@@ -1,0 +1,61 @@
+<div class="container mt-4">
+  <h2 class="text-center mb-4">User Directory</h2>
+
+  <div class="input-group mb-3">
+    <input type="text"
+           class="form-control"
+           [(ngModel)]="searchText"
+           placeholder="Search by name or email">
+
+    <button class="btn btn-primary" type="button" (click)="onSearch()">Search</button>
+
+    <button *ngIf="isSearchActive"
+            class="btn btn-outline-secondary"
+            type="button"
+            (click)="onReset()">Reset</button>
+  </div>
+
+  <!-- <select class="form-select mb-3" [(ngModel)]="selectedRole">
+    <option value="">All Roles</option>
+    <option value="admin">Admin</option>
+    <option value="user">User</option>
+    <option value="moderator">Moderator</option>
+  </select> -->
+
+  <p class="text-muted">Results: {{ filteredUsers.length }}</p>
+
+  <ul class="list-unstyled d-flex flex-wrap gap-3 justify-content-center">
+    <li *ngFor="let user of filteredUsers">
+      <div class="card shadow-sm border"
+           [ngClass]="{
+             'border-danger': user.role === 'admin',
+             'border-success': user.role === 'user',
+             'border-warning': user.role === 'moderator'
+           }"
+           style="width: 18rem;">
+        <img *ngIf="user.image"
+             [src]="user.image"
+             class="card-img-top"
+             alt="{{ user.username }}">
+        <div class="card-body">
+          <h5 class="card-title">{{ user.firstName }} {{ user.lastName }}</h5>
+          <p class="card-text">
+            📧 {{ user.email }}<br>
+            📞 {{ user.phone }}<br>
+            🎂 {{ user.birthDate }}<br>
+            🏙️ {{ user.address.city }}, {{ user.address.country }}<br>
+            🏢 {{ user.company.name }}
+          </p>
+          <span class="badge"
+                [ngClass]="{
+                  'bg-danger': user.role === 'admin',
+                  'bg-success': user.role === 'user',
+                  'bg-warning text-dark': user.role === 'moderator'
+                }">
+            {{ user.role }}
+          </span>
+        </div>
+      </div>
+    </li>
+  </ul>
+</div>
